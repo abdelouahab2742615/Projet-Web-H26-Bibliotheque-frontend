@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="container nav-content">
+    <div class="logo">Bibliothèque</div>
+
+    <div class="nav-links">
+      <% if (user) { %>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/users">Users</a>
+        <a href="/roles">Roles</a>
+        <a href="/logout" class="logout-link">Déconnexion</a>
+      <% } else { %>
+        <a href="/login">Connexion</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
