@@ -1,0 +1,42 @@
+<%- include("partials/header", { title: title }) %>
+
+<div class="page-center">
+  <div class="login-card">
+    <h1>Connexion</h1>
+    <p class="subtitle">Projet Bibliothèque - Frontend EJS</p>
+
+    <% if (error) { %>
+      <div class="alert-error">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/login" method="POST">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Entrez votre email"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Entrez votre mot de passe"
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn-primary">Se connecter</button>
+    </form>
+  </div>
+</div>
+
+<%- include("partials/footer") %>
