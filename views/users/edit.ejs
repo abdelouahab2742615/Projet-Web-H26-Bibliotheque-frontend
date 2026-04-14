@@ -11,36 +11,26 @@
 
     <form action="/users/edit/<%= user.id %>" method="POST">
       <div class="form-group">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value="<%= user.username || '' %>"
-          required>
+        <label>Username</label>
+        <input type="text" name="username" value="<%= user.username %>" required>
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value="<%= user.email || '' %>"
-          required>
+        <label>Email</label>
+        <input type="email" name="email" value="<%= user.email %>" required>
       </div>
 
       <div class="form-group">
-        <label for="roleId">Role ID</label>
-        <input
-          type="number"
-          id="roleId"
-          name="roleId"
-          value="<%= user.roleId || '' %>"
-          required>
+        <label>Mot de passe</label>
+        <input type="password" name="password" value="">
       </div>
 
-      <button type="submit" class="btn-primary">Mettre à jour</button>
+      <div class="form-group">
+        <label>Role ID</label>
+        <input type="number" name="roleId" value="<%= user.roleId %>" required>
+      </div>
+
+      <button class="btn-primary">Mettre à jour</button>
     </form>
   </div>
 </div>

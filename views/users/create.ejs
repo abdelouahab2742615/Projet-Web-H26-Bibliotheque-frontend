@@ -11,26 +11,26 @@
 
     <form action="/users/create" method="POST">
       <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <label>Username</label>
+        <input type="text" name="username" value="<%= formData?.username || '' %>" required>
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+        <label>Email</label>
+        <input type="email" name="email" value="<%= formData?.email || '' %>" required>
       </div>
 
       <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" required>
+        <label>Mot de passe</label>
+        <input type="password" name="password" value="<%= formData?.password || '' %>" required>
       </div>
 
       <div class="form-group">
-        <label for="roleId">Role ID</label>
-        <input type="number" id="roleId" name="roleId" required>
+        <label>Role ID</label>
+        <input type="number" name="roleId" value="<%= formData?.roleId || '' %>" required>
       </div>
 
-      <button type="submit" class="btn-primary">Ajouter</button>
+      <button class="btn-primary">Ajouter</button>
     </form>
   </div>
 </div>
