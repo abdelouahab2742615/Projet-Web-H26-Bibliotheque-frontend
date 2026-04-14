@@ -1,0 +1,81 @@
+<%- include("../partials/header") %>
+<%- include("../partials/messages") %>
+
+<section class="section-heading">
+  <div>
+    <p class="eyebrow">Abdelhak</p>
+    <h1>Reservations</h1>
+    <p>Affichage des relations livre -> reservation avec fallback sur les IDs si besoin.</p>
+  </div>
+  <div class="button-row">
+    <a class="button-link button-link-muted" href="/session">Configurer le JWT</a>
+    <a class="button-link" href="/reservations/create">Ajouter une reservation</a>
+  </div>
+</section>
+
+<% if (pageError) { %>
+  <div class="message-banner <%= authRequired ? 'message-warning' : 'message-error' %>">
+    <p><%= pageError %></p>
+  </div>
+<% } %>
+
+<section class="panel stack">
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-label">Total</span>
+      <strong><%= pagination.total %></strong>
+    </div>
+    <div class="info-card">
+      <span class="info-label">Page</span>
+      <strong><%= pagination.page %> / <%= pagination.totalPages %></strong>
+    </div>
+  </div>
+
+  <% if (reservations.length === 0) { %>
+    <div class="empty-state">
+      <h2>Aucune reservation chargee</h2>
+      <p>
+        Si le backend exige l'authentification, enregistre d'abord un JWT dans
+        la page <a href="/session">Jeton API</a>.
+      </p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Utilisateur</th>
+            <th>Livre</th>
+            <th>Reservation</th>
+            <th>Expiration</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reservations.forEach((reservation) => { %>
+            <tr>
+              <td><%= reservation.id %></td>
+              <td><%= reservation.userLabel %></td>
+              <td><%= reservation.bookLabel %></td>
+              <td><%= reservation.reservationDate || "n/a" %></td>
+              <td><%= reservation.expiryDate || "n/a" %></td>
+              <td>
+                <span class="status-pill status-<%= reservation.status %>"><%= reservation.status %></span>
+              </td>
+              <td class="action-cell">
+                <a class="button-secondary small-button" href="/reservations/<%= reservation.id %>/edit">Modifier</a>
+                <form method="post" action="/reservations/<%= reservation.id %>/delete" onsubmit="return confirm('Supprimer cette reservation ?');">
+                  <button type="submit" class="button-danger small-button">Supprimer</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>

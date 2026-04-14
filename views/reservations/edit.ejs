@@ -1,0 +1,4 @@
+<%- include("../partials/header") %>
+<%- include("../partials/messages") %>
+<%- include("_form", { title, values, errors, formError, users, books, optionWarnings, statusOptions, formAction: `/reservations/${reservationId}/edit`, submitLabel: "Enregistrer les changements" }) %>
+<%- include("../partials/footer") %>

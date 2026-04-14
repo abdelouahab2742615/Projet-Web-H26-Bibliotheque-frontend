@@ -1,0 +1,85 @@
+<%- include("partials/header") %>
+<%- include("partials/messages") %>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">Projet 2 · Equipe IFM30-12</p>
+    <h1>Base frontend pour la partie Abdelhak</h1>
+    <p class="hero-copy">
+      Cette interface couvre les pages EJS d'<strong>editeurs</strong> et de
+      <strong>reservations</strong>, avec formulaires, validation front,
+      messages d'etat et integration backend configurable.
+    </p>
+  </div>
+
+  <div class="hero-panel">
+    <p class="panel-label">Infos rapides</p>
+    <dl class="stat-grid">
+      <div class="stat-card">
+        <dt>Editeurs</dt>
+        <dd><%= stats.publishers ?? "n/a" %></dd>
+      </div>
+      <div class="stat-card">
+        <dt>Reservations</dt>
+        <dd><%= stats.reservations ?? "n/a" %></dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<% if (warnings.length > 0) { %>
+  <section class="stack">
+    <% warnings.forEach((warning) => { %>
+      <div class="message-banner message-warning">
+        <p><%= warning %></p>
+      </div>
+    <% }) %>
+  </section>
+<% } %>
+
+<section class="card-grid">
+  <article class="feature-card">
+    <p class="eyebrow">CRUD</p>
+    <h2>Editeurs</h2>
+    <p>
+      Liste, ajout, modification et suppression des maisons d'edition via
+      l'API backend.
+    </p>
+    <a class="button-link" href="/publishers">Ouvrir la section</a>
+  </article>
+
+  <article class="feature-card">
+    <p class="eyebrow">Relations</p>
+    <h2>Reservations</h2>
+    <p>
+      Gestion des reservations avec affichage du lien vers l'utilisateur et le
+      livre quand l'API retourne les relations.
+    </p>
+    <a class="button-link" href="/reservations">Voir les reservations</a>
+  </article>
+
+  <article class="feature-card">
+    <p class="eyebrow">Session</p>
+    <h2>Jeton JWT</h2>
+    <p>
+      Les routes protegees du backend peuvent utiliser un jeton saisi dans la
+      session pour tester les reservations sans attendre le merge du login.
+    </p>
+    <a class="button-link button-link-muted" href="/session">Configurer le jeton</a>
+  </article>
+</section>
+
+<section class="panel stack">
+  <h2>Configuration attendue</h2>
+  <p>
+    Le frontend demarre par defaut sur <code>http://localhost:3001</code> et
+    vise le backend sur <code><%= backendUrl %></code>.
+  </p>
+  <p>
+    Si votre backend expose un chemin different pour les editeurs ou les
+    reservations, tu peux ajuster <code>PUBLISHERS_API_PATH</code> et
+    <code>RESERVATIONS_API_PATH</code> sans toucher au code.
+  </p>
+</section>
+
+<%- include("partials/footer") %>

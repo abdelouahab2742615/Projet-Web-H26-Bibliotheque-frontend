@@ -1,0 +1,30 @@
+<%
+  const navItems = [
+    { href: "/", label: "Accueil", active: currentPath === "/" },
+    { href: "/publishers", label: "Editeurs", active: currentPath.startsWith("/publishers") },
+    { href: "/reservations", label: "Reservations", active: currentPath.startsWith("/reservations") },
+    { href: "/session", label: "Jeton API", active: currentPath.startsWith("/session") },
+  ];
+%>
+
+<header class="site-header">
+  <div class="brand-block">
+    <a class="brand-link" href="/">Bibliotheque Frontend</a>
+    <p class="brand-subtitle">Section Abdelhak · publishers et reservations</p>
+  </div>
+
+  <nav class="site-nav" aria-label="Navigation principale">
+    <% navItems.forEach((item) => { %>
+      <a class="nav-link <%= item.active ? 'is-active' : '' %>" href="<%= item.href %>"><%= item.label %></a>
+    <% }) %>
+  </nav>
+
+  <div class="status-strip">
+    <span class="status-chip">
+      Backend: <strong><%= backendUrl %></strong>
+    </span>
+    <span class="status-chip <%= hasAuthToken ? 'chip-success' : 'chip-warning' %>">
+      JWT: <strong><%= hasAuthToken ? (authTokenSource === 'session' ? 'session' : 'environment') : 'non configure' %></strong>
+    </span>
+  </div>
+</header>
