@@ -1,0 +1,57 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="top-bar">
+    <h1>Liste des utilisateurs</h1>
+    <a href="/users/create" class="btn-primary" style="width:auto;">Ajouter</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="card">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!users || users.length === 0) { %>
+          <tr>
+            <td colspan="5">Aucun utilisateur trouvé.</td>
+          </tr>
+        <% } else { %>
+          <% users.forEach(userItem => { %>
+            <tr>
+              <td><%= userItem.id %></td>
+              <td><%= userItem.username || "-" %></td>
+              <td><%= userItem.email || "-" %></td>
+              <td><%= userItem.roleId || userItem.role || "-" %></td>
+              <td class="actions">
+                <a href="/users/edit/<%= userItem.id %>" class="btn-edit">Modifier</a>
+
+                <form action="/users/delete/<%= userItem.id %>" method="POST" style="display:inline;">
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    onclick="return confirm('Supprimer cet utilisateur ?')">
+                    Supprimer
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

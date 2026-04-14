@@ -1,0 +1,29 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="card form-card">
+    <h1>Ajouter un rôle</h1>
+
+    <% if (error) { %>
+      <div class="alert-error"><%= error %></div>
+    <% } %>
+
+    <form action="/roles/create" method="POST">
+      <div class="form-group">
+        <label for="name">Nom du rôle</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="<%= formData?.name || '' %>"
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn-primary">Ajouter</button>
+    </form>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>
