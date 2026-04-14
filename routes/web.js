@@ -1,68 +1,24 @@
-const axios = require("axios");
+const express = require("express");
+const router = express.Router();
+const authController = require("../controllers/authController");
+const userController = require("../controllers/userController");
+const authMiddleware = require("../middleware/authMiddleware");
 
-const LOGIN_API = "http://localhost:3000/api/users/login";
+router.get("/", (req, res) => {
+  res.redirect("/login");
+});
 
-exports.showLogin = (req, res) => {
-  res.render("login", {
-    title: "Connexion",
-    error: null,
-  });
-};
+router.get("/login", authController.showLogin);
+router.post("/login", authController.login);
+router.get("/dashboard", authMiddleware, authController.dashboard);
+router.get("/logout", authController.logout);
 
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// Users CRUD
+router.get("/users", authMiddleware, userController.index);
+router.get("/users/create", authMiddleware, userController.showCreate);
+router.post("/users/create", authMiddleware, userController.create);
+router.get("/users/edit/:id", authMiddleware, userController.showEdit);
+router.post("/users/edit/:id", authMiddleware, userController.update);
+router.post("/users/delete/:id", authMiddleware, userController.delete);
 
-    if (!email || !password) {
-      return res.render("login", {
-        title: "Connexion",
-        error: "Veuillez remplir tous les champs.",
-      });
-    }
-
-    const response = await axios.post(LOGIN_API, {
-      email,
-      password,
-    });
-
-    const token = response.data.token;
-    const user = response.data.user;
-
-    if (!token || !user) {
-      return res.render("login", {
-        title: "Connexion",
-        error: "Réponse invalide du serveur.",
-      });
-    }
-
-    req.session.user = {
-      token,
-      user,
-    };
-
-    res.redirect("/dashboard");
-  } catch (error) {
-    const message =
-      error.response?.data?.message ||
-      error.response?.data?.error ||
-      "Email ou mot de passe incorrect.";
-
-    res.render("login", {
-      title: "Connexion",
-      error: message,
-    });
-  }
-};
-
-exports.dashboard = (req, res) => {
-  res.render("dashboard", {
-    title: "Dashboard",
-    currentUser: req.session.user,
-  });
-};
-
-exports.logout = (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/login");
-  });
-};
+module.exports = router;
