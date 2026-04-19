@@ -1,0 +1,10 @@
+<h1>Categories</h1>
+
+<a href="/categories/create">Ajouter</a>
+
+<% categories.forEach(c => { %>
+  <p>
+    <%= c.name %>
+    <a href="/categories/edit/<%=c.id %>">Edit</a>
+  </p>
+<% }) %>
