@@ -1,0 +1,61 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="top-bar">
+    <h1>Liste des livres</h1>
+    <a href="/books/create" class="btn-primary" style="width:auto;">Ajouter</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="card">
+    <table class="books-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Titre</th>
+          <th>ISBN</th>
+          <th>Auteur</th>
+          <th>Catégorie</th>
+          <th>Date de publication</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!books || books.length === 0) { %>
+          <tr>
+            <td colspan="7">Aucun livre trouvé.</td>
+          </tr>
+        <% } else { %>
+          <% books.forEach(book => { %>
+            <tr>
+              <td><%= book.id %></td>
+              <td><%= book.title || "-" %></td>
+              <td><%= book.isbn || "-" %></td>
+              <td><%= book.authorId || "-" %></td>
+              <td><%= book.categoryId || "-" %></td>
+              <td><%= book.publication_date ? book.publication_date.substring(0, 10) : "-" %></td>
+              <td class="actions">
+                <a href="/books/edit/<%= book.id %>" class="btn-edit">Modifier</a>
+
+                <form action="/books/delete/<%= book.id %>" method="POST" style="display:inline;">
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    onclick="return confirm('Supprimer ce livre ?')">
+                    Supprimer
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

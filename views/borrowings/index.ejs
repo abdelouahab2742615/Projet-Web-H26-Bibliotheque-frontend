@@ -1,0 +1,59 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="top-bar">
+    <h1>Liste des emprunts</h1>
+    <a href="/borrowings/create" class="btn-primary" style="width:auto;">Ajouter</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="card">
+    <table class="borrowings-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Utilisateur</th>
+          <th>Livre</th>
+          <th>Date emprunt</th>
+          <th>Date retour</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!borrowings || borrowings.length === 0) { %>
+          <tr>
+            <td colspan="6">Aucun emprunt trouvé.</td>
+          </tr>
+        <% } else { %>
+          <% borrowings.forEach(borrowing => { %>
+            <tr>
+              <td><%= borrowing.id %></td>
+              <td><%= borrowing.userId %></td>
+              <td><%= borrowing.bookId %></td>
+              <td><%= borrowing.borrowDate ? borrowing.borrowDate.substring(0, 10) : "-" %></td>
+              <td><%= borrowing.returnDate ? borrowing.returnDate.substring(0, 10) : "-" %></td>
+              <td class="actions">
+                <a href="/borrowings/edit/<%= borrowing.id %>" class="btn-edit">Modifier</a>
+
+                <form action="/borrowings/delete/<%= borrowing.id %>" method="POST" style="display:inline;">
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    onclick="return confirm('Supprimer cet emprunt ?')">
+                    Supprimer
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

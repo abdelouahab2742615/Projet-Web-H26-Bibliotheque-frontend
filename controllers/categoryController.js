@@ -88,3 +88,19 @@ exports.update = async (req, res) => {
    });
  }
 };
+
+exports.delete = async (req, res) => {
+  try {
+    const token = req.session.user.token;
+    const { id } = req.params;
+
+    await axios.delete(`${API_BASE_URL}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    res.redirect("/categories");
+  } catch (error) {
+    console.log("ERREUR DELETE CATEGORY =", error.message);
+    res.redirect("/categories");
+  }
+};

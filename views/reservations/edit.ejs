@@ -1,0 +1,77 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="form-card">
+    <h1><%= title %></h1>
+
+    <% if (error) { %>
+      <div class="alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/reservations/edit/<%= reservation.id %>" class="form">
+      <div class="form-group">
+        <label for="userId">Utilisateur *</label>
+        <select
+          id="userId"
+          name="userId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner un utilisateur</option>
+          <% users.forEach(user => { %>
+            <option value="<%= user.id %>" <%= reservation.userId == user.id ? 'selected' : '' %>>
+              <%= user.username %> (<%= user.email %>)
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="bookId">Livre *</label>
+        <select
+          id="bookId"
+          name="bookId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner un livre</option>
+          <% books.forEach(book => { %>
+            <option value="<%= book.id %>" <%= reservation.bookId == book.id ? 'selected' : '' %>>
+              <%= book.title %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="reservationDate">Date de réservation *</label>
+        <input
+          type="date"
+          id="reservationDate"
+          name="reservationDate"
+          class="form-control"
+          value="<%= reservation.reservationDate ? reservation.reservationDate.substring(0, 10) : '' %>"
+          required />
+      </div>
+
+      <div class="form-group">
+        <label for="status">Statut *</label>
+        <select
+          id="status"
+          name="status"
+          class="form-control"
+          required>
+          <option value="pending" <%= reservation.status === 'pending' ? 'selected' : '' %>>En attente</option>
+          <option value="confirmed" <%= reservation.status === 'confirmed' ? 'selected' : '' %>>Confirmée</option>
+          <option value="cancelled" <%= reservation.status === 'cancelled' ? 'selected' : '' %>>Annulée</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Modifier</button>
+        <a href="/reservations" class="btn-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

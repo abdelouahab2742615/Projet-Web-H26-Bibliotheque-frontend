@@ -1,0 +1,59 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="top-bar">
+    <h1>Liste des réservations</h1>
+    <a href="/reservations/create" class="btn-primary" style="width:auto;">Ajouter</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="card">
+    <table class="reservations-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Utilisateur</th>
+          <th>Livre</th>
+          <th>Date réservation</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!reservations || reservations.length === 0) { %>
+          <tr>
+            <td colspan="6">Aucune réservation trouvée.</td>
+          </tr>
+        <% } else { %>
+          <% reservations.forEach(reservation => { %>
+            <tr>
+              <td><%= reservation.id %></td>
+              <td><%= reservation.userId %></td>
+              <td><%= reservation.bookId %></td>
+              <td><%= reservation.reservationDate ? reservation.reservationDate.substring(0, 10) : "-" %></td>
+              <td><span class="badge <%= reservation.status === 'pending' ? 'badge-warning' : 'badge-success' %>"><%= reservation.status || "pending" %></span></td>
+              <td class="actions">
+                <a href="/reservations/edit/<%= reservation.id %>" class="btn-edit">Modifier</a>
+
+                <form action="/reservations/delete/<%= reservation.id %>" method="POST" style="display:inline;">
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    onclick="return confirm('Supprimer cette réservation ?')">
+                    Supprimer
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

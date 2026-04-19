@@ -1,0 +1,79 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="form-card">
+    <h1><%= title %></h1>
+
+    <% if (error) { %>
+      <div class="alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/reviews/create" class="form">
+      <div class="form-group">
+        <label for="userId">Utilisateur *</label>
+        <select
+          id="userId"
+          name="userId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner un utilisateur</option>
+          <% users.forEach(user => { %>
+            <option value="<%= user.id %>" <%= formData.userId == user.id ? 'selected' : '' %>>
+              <%= user.username %> (<%= user.email %>)
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="bookId">Livre *</label>
+        <select
+          id="bookId"
+          name="bookId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner un livre</option>
+          <% books.forEach(book => { %>
+            <option value="<%= book.id %>" <%= formData.bookId == book.id ? 'selected' : '' %>>
+              <%= book.title %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="rating">Note (1-5) *</label>
+        <select
+          id="rating"
+          name="rating"
+          class="form-control"
+          required>
+          <option value="">Sélectionner une note</option>
+          <option value="1" <%= formData.rating == 1 ? 'selected' : '' %>>1 ⭐</option>
+          <option value="2" <%= formData.rating == 2 ? 'selected' : '' %>>2 ⭐⭐</option>
+          <option value="3" <%= formData.rating == 3 ? 'selected' : '' %>>3 ⭐⭐⭐</option>
+          <option value="4" <%= formData.rating == 4 ? 'selected' : '' %>>4 ⭐⭐⭐⭐</option>
+          <option value="5" <%= formData.rating == 5 ? 'selected' : '' %>>5 ⭐⭐⭐⭐⭐</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="review">Avis</label>
+        <textarea
+          id="review"
+          name="review"
+          class="form-control"
+          rows="5"
+          placeholder="Écrivez votre avis..."><%= formData.review || '' %></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Ajouter</button>
+        <a href="/reviews" class="btn-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

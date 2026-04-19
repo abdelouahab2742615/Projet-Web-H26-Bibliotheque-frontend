@@ -57,6 +57,46 @@ exports.create = async (req, res) => {
   }
 };
 
+exports.showEdit = async (req, res) => {
+  try {
+    const token = req.session.user.token;
+    const { id } = req.params;
+
+    const [book, authors, categories] = await Promise.all([
+      axios.get(`${BOOKS_API}/${id}`, { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(AUTHORS_API, { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(CATEGORIES_API, { headers: { Authorization: `Bearer ${token}` } }),
+    ]);
+
+    res.render("books/edit", {
+      title: "Modifier un livre",
+      book: book.data.data || book.data,
+      authors: authors.data.data || [],
+      categories: categories.data.data || [],
+      error: null,
+    });
+  } catch (error) {
+    console.log("ERREUR SHOW EDIT BOOK =", error.message);
+    res.redirect("/books");
+  }
+};
+
+exports.update = async (req, res) => {
+  try {
+    const token = req.session.user.token;
+    const { id } = req.params;
+
+    await axios.put(`${BOOKS_API}/${id}`, req.body, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    res.redirect("/books");
+  } catch (error) {
+    console.log("ERREUR UPDATE BOOK =", error.message);
+    res.redirect(`/books/edit/${req.params.id}`);
+  }
+};
+
 exports.delete = async (req, res) => {
   const token = req.session.user.token;
 
