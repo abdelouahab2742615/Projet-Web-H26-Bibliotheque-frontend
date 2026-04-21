@@ -1,81 +1,59 @@
-<%- include("../partials/header") %>
-<%- include("../partials/messages") %>
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
 
-<section class="section-heading">
-  <div>
-    <p class="eyebrow">Abdelhak</p>
-    <h1>Reservations</h1>
-    <p>Affichage des relations livre -> reservation avec fallback sur les IDs si besoin.</p>
-  </div>
-  <div class="button-row">
-    <a class="button-link button-link-muted" href="/session">Configurer le JWT</a>
-    <a class="button-link" href="/reservations/create">Ajouter une reservation</a>
-  </div>
-</section>
-
-<% if (pageError) { %>
-  <div class="message-banner <%= authRequired ? 'message-warning' : 'message-error' %>">
-    <p><%= pageError %></p>
-  </div>
-<% } %>
-
-<section class="panel stack">
-  <div class="info-grid">
-    <div class="info-card">
-      <span class="info-label">Total</span>
-      <strong><%= pagination.total %></strong>
-    </div>
-    <div class="info-card">
-      <span class="info-label">Page</span>
-      <strong><%= pagination.page %> / <%= pagination.totalPages %></strong>
-    </div>
+<div class="container">
+  <div class="top-bar">
+    <h1>Liste des réservations</h1>
+    <a href="/reservations/create" class="btn-primary" style="width:auto;">Ajouter</a>
   </div>
 
-  <% if (reservations.length === 0) { %>
-    <div class="empty-state">
-      <h2>Aucune reservation chargee</h2>
-      <p>
-        Si le backend exige l'authentification, enregistre d'abord un JWT dans
-        la page <a href="/session">Jeton API</a>.
-      </p>
-    </div>
-  <% } else { %>
-    <div class="table-wrap">
-      <table>
-        <thead>
+  <% if (error) { %>
+    <div class="alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="card">
+    <table class="reservations-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Utilisateur</th>
+          <th>Livre</th>
+          <th>Date réservation</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!reservations || reservations.length === 0) { %>
           <tr>
-            <th>ID</th>
-            <th>Utilisateur</th>
-            <th>Livre</th>
-            <th>Reservation</th>
-            <th>Expiration</th>
-            <th>Statut</th>
-            <th>Actions</th>
+            <td colspan="6">Aucune réservation trouvée.</td>
           </tr>
-        </thead>
-        <tbody>
-          <% reservations.forEach((reservation) => { %>
+        <% } else { %>
+          <% reservations.forEach(reservation => { %>
             <tr>
               <td><%= reservation.id %></td>
-              <td><%= reservation.userLabel %></td>
-              <td><%= reservation.bookLabel %></td>
-              <td><%= reservation.reservationDate || "n/a" %></td>
-              <td><%= reservation.expiryDate || "n/a" %></td>
-              <td>
-                <span class="status-pill status-<%= reservation.status %>"><%= reservation.status %></span>
-              </td>
-              <td class="action-cell">
-                <a class="button-secondary small-button" href="/reservations/<%= reservation.id %>/edit">Modifier</a>
-                <form method="post" action="/reservations/<%= reservation.id %>/delete" onsubmit="return confirm('Supprimer cette reservation ?');">
-                  <button type="submit" class="button-danger small-button">Supprimer</button>
+              <td><%= reservation.userId %></td>
+              <td><%= reservation.bookId %></td>
+              <td><%= reservation.reservationDate ? reservation.reservationDate.substring(0, 10) : "-" %></td>
+              <td><span class="badge <%= reservation.status === 'pending' ? 'badge-warning' : 'badge-success' %>"><%= reservation.status || "pending" %></span></td>
+              <td class="actions">
+                <a href="/reservations/edit/<%= reservation.id %>" class="btn-edit">Modifier</a>
+
+                <form action="/reservations/delete/<%= reservation.id %>" method="POST" style="display:inline;">
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    onclick="return confirm('Supprimer cette réservation ?')">
+                    Supprimer
+                  </button>
                 </form>
               </td>
             </tr>
           <% }) %>
-        </tbody>
-      </table>
-    </div>
-  <% } %>
-</section>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <%- include("../partials/footer") %>

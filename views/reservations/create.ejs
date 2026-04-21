@@ -1,4 +1,77 @@
-<%- include("../partials/header") %>
-<%- include("../partials/messages") %>
-<%- include("_form", { title, values, errors, formError, users, books, optionWarnings, statusOptions, formAction: "/reservations/create", submitLabel: "Creer la reservation" }) %>
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="form-card">
+    <h1><%= title %></h1>
+
+    <% if (error) { %>
+      <div class="alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/reservations/create" class="form">
+      <div class="form-group">
+        <label for="userId">Utilisateur *</label>
+        <select
+          id="userId"
+          name="userId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner un utilisateur</option>
+          <% users.forEach(user => { %>
+            <option value="<%= user.id %>" <%= formData.userId == user.id ? 'selected' : '' %>>
+              <%= user.username %> (<%= user.email %>)
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="bookId">Livre *</label>
+        <select
+          id="bookId"
+          name="bookId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner un livre</option>
+          <% books.forEach(book => { %>
+            <option value="<%= book.id %>" <%= formData.bookId == book.id ? 'selected' : '' %>>
+              <%= book.title %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="reservationDate">Date de réservation *</label>
+        <input
+          type="date"
+          id="reservationDate"
+          name="reservationDate"
+          class="form-control"
+          value="<%= formData.reservationDate || '' %>"
+          required />
+      </div>
+
+      <div class="form-group">
+        <label for="status">Statut *</label>
+        <select
+          id="status"
+          name="status"
+          class="form-control"
+          required>
+          <option value="pending" <%= formData.status === 'pending' ? 'selected' : '' %>>En attente</option>
+          <option value="confirmed" <%= formData.status === 'confirmed' ? 'selected' : '' %>>Confirmée</option>
+          <option value="cancelled" <%= formData.status === 'cancelled' ? 'selected' : '' %>>Annulée</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Ajouter</button>
+        <a href="/reservations" class="btn-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
+
 <%- include("../partials/footer") %>

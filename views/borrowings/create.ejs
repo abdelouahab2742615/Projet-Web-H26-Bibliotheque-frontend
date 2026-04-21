@@ -9,7 +9,7 @@
       <div class="alert-error"><%= error %></div>
     <% } %>
 
-    <form method="POST" action="/reservations/edit/<%= reservation.id %>" class="form">
+    <form method="POST" action="/borrowings/create" class="form">
       <div class="form-group">
         <label for="userId">Utilisateur *</label>
         <select
@@ -19,7 +19,7 @@
           required>
           <option value="">Sélectionner un utilisateur</option>
           <% users.forEach(user => { %>
-            <option value="<%= user.id %>" <%= reservation.userId == user.id ? 'selected' : '' %>>
+            <option value="<%= user.id %>" <%= formData.userId == user.id ? 'selected' : '' %>>
               <%= user.username %> (<%= user.email %>)
             </option>
           <% }) %>
@@ -35,7 +35,7 @@
           required>
           <option value="">Sélectionner un livre</option>
           <% books.forEach(book => { %>
-            <option value="<%= book.id %>" <%= reservation.bookId == book.id ? 'selected' : '' %>>
+            <option value="<%= book.id %>" <%= formData.bookId == book.id ? 'selected' : '' %>>
               <%= book.title %>
             </option>
           <% }) %>
@@ -43,32 +43,29 @@
       </div>
 
       <div class="form-group">
-        <label for="reservationDate">Date de réservation *</label>
+        <label for="borrowDate">Date d'emprunt *</label>
         <input
           type="date"
-          id="reservationDate"
-          name="reservationDate"
+          id="borrowDate"
+          name="borrowDate"
           class="form-control"
-          value="<%= reservation.reservationDate ? reservation.reservationDate.substring(0, 10) : '' %>"
+          value="<%= formData.borrowDate || '' %>"
           required />
       </div>
 
       <div class="form-group">
-        <label for="status">Statut *</label>
-        <select
-          id="status"
-          name="status"
+        <label for="returnDate">Date de retour</label>
+        <input
+          type="date"
+          id="returnDate"
+          name="returnDate"
           class="form-control"
-          required>
-          <option value="pending" <%= reservation.status === 'pending' ? 'selected' : '' %>>En attente</option>
-          <option value="confirmed" <%= reservation.status === 'confirmed' ? 'selected' : '' %>>Confirmée</option>
-          <option value="cancelled" <%= reservation.status === 'cancelled' ? 'selected' : '' %>>Annulée</option>
-        </select>
+          value="<%= formData.returnDate || '' %>" />
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn-primary">Modifier</button>
-        <a href="/reservations" class="btn-secondary">Annuler</a>
+        <button type="submit" class="btn-primary">Ajouter</button>
+        <a href="/borrowings" class="btn-secondary">Annuler</a>
       </div>
     </form>
   </div>

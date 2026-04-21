@@ -1,30 +1,23 @@
-<%
-  const navItems = [
-    { href: "/", label: "Accueil", active: currentPath === "/" },
-    { href: "/publishers", label: "Editeurs", active: currentPath.startsWith("/publishers") },
-    { href: "/reservations", label: "Reservations", active: currentPath.startsWith("/reservations") },
-    { href: "/session", label: "Jeton API", active: currentPath.startsWith("/session") },
-  ];
-%>
+<nav class="navbar">
+  <div class="container nav-content">
+    <div class="logo">Bibliothèque</div>
 
-<header class="site-header">
-  <div class="brand-block">
-    <a class="brand-link" href="/">Bibliotheque Frontend</a>
-    <p class="brand-subtitle">Section Abdelhak · publishers et reservations</p>
+    <div class="nav-links">
+      <% if (user) { %>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/users">Utilisateurs</a>
+        <a href="/roles">Rôles</a>
+        <a href="/categories">Catégories</a>
+        <a href="/books">Livres</a>
+        <a href="/authors">Auteurs</a>
+        <a href="/borrowings">Emprunts</a>
+        <a href="/reservations">Réservations</a>
+        <a href="/reviews">Avis</a>
+
+        <a href="/logout" class="logout-link">Déconnexion</a>
+      <% } else { %>
+        <a href="/login">Connexion</a>
+      <% } %>
+    </div>
   </div>
-
-  <nav class="site-nav" aria-label="Navigation principale">
-    <% navItems.forEach((item) => { %>
-      <a class="nav-link <%= item.active ? 'is-active' : '' %>" href="<%= item.href %>"><%= item.label %></a>
-    <% }) %>
-  </nav>
-
-  <div class="status-strip">
-    <span class="status-chip">
-      Backend: <strong><%= backendUrl %></strong>
-    </span>
-    <span class="status-chip <%= hasAuthToken ? 'chip-success' : 'chip-warning' %>">
-      JWT: <strong><%= hasAuthToken ? (authTokenSource === 'session' ? 'session' : 'environment') : 'non configure' %></strong>
-    </span>
-  </div>
-</header>
+</nav>

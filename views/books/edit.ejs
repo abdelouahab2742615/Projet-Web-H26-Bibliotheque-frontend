@@ -1,0 +1,84 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="form-card">
+    <h1><%= title %></h1>
+
+    <% if (error) { %>
+      <div class="alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/books/edit/<%= book.id %>" class="form">
+      <div class="form-group">
+        <label for="title">Titre *</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          value="<%= book.title || '' %>"
+          required />
+      </div>
+
+      <div class="form-group">
+        <label for="isbn">ISBN</label>
+        <input
+          type="text"
+          id="isbn"
+          name="isbn"
+          class="form-control"
+          value="<%= book.isbn || '' %>" />
+      </div>
+
+      <div class="form-group">
+        <label for="publication_date">Date de publication</label>
+        <input
+          type="date"
+          id="publication_date"
+          name="publication_date"
+          class="form-control"
+          value="<%= book.publication_date ? book.publication_date.substring(0, 10) : '' %>" />
+      </div>
+
+      <div class="form-group">
+        <label for="authorId">Auteur *</label>
+        <select
+          id="authorId"
+          name="authorId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner un auteur</option>
+          <% authors.forEach(author => { %>
+            <option value="<%= author.id %>" <%= book.authorId == author.id ? 'selected' : '' %>>
+              <%= author.first_name %> <%= author.last_name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="categoryId">Catégorie *</label>
+        <select
+          id="categoryId"
+          name="categoryId"
+          class="form-control"
+          required>
+          <option value="">Sélectionner une catégorie</option>
+          <% categories.forEach(category => { %>
+            <option value="<%= category.id %>" <%= book.categoryId == category.id ? 'selected' : '' %>>
+              <%= category.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Modifier</button>
+        <a href="/books" class="btn-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

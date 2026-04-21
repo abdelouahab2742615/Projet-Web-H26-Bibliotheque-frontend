@@ -9,7 +9,7 @@
       <div class="alert-error"><%= error %></div>
     <% } %>
 
-    <form method="POST" action="/reservations/edit/<%= reservation.id %>" class="form">
+    <form method="POST" action="/reviews/create" class="form">
       <div class="form-group">
         <label for="userId">Utilisateur *</label>
         <select
@@ -19,7 +19,7 @@
           required>
           <option value="">Sélectionner un utilisateur</option>
           <% users.forEach(user => { %>
-            <option value="<%= user.id %>" <%= reservation.userId == user.id ? 'selected' : '' %>>
+            <option value="<%= user.id %>" <%= formData.userId == user.id ? 'selected' : '' %>>
               <%= user.username %> (<%= user.email %>)
             </option>
           <% }) %>
@@ -35,7 +35,7 @@
           required>
           <option value="">Sélectionner un livre</option>
           <% books.forEach(book => { %>
-            <option value="<%= book.id %>" <%= reservation.bookId == book.id ? 'selected' : '' %>>
+            <option value="<%= book.id %>" <%= formData.bookId == book.id ? 'selected' : '' %>>
               <%= book.title %>
             </option>
           <% }) %>
@@ -43,32 +43,34 @@
       </div>
 
       <div class="form-group">
-        <label for="reservationDate">Date de réservation *</label>
-        <input
-          type="date"
-          id="reservationDate"
-          name="reservationDate"
-          class="form-control"
-          value="<%= reservation.reservationDate ? reservation.reservationDate.substring(0, 10) : '' %>"
-          required />
-      </div>
-
-      <div class="form-group">
-        <label for="status">Statut *</label>
+        <label for="rating">Note (1-5) *</label>
         <select
-          id="status"
-          name="status"
+          id="rating"
+          name="rating"
           class="form-control"
           required>
-          <option value="pending" <%= reservation.status === 'pending' ? 'selected' : '' %>>En attente</option>
-          <option value="confirmed" <%= reservation.status === 'confirmed' ? 'selected' : '' %>>Confirmée</option>
-          <option value="cancelled" <%= reservation.status === 'cancelled' ? 'selected' : '' %>>Annulée</option>
+          <option value="">Sélectionner une note</option>
+          <option value="1" <%= formData.rating == 1 ? 'selected' : '' %>>1 ⭐</option>
+          <option value="2" <%= formData.rating == 2 ? 'selected' : '' %>>2 ⭐⭐</option>
+          <option value="3" <%= formData.rating == 3 ? 'selected' : '' %>>3 ⭐⭐⭐</option>
+          <option value="4" <%= formData.rating == 4 ? 'selected' : '' %>>4 ⭐⭐⭐⭐</option>
+          <option value="5" <%= formData.rating == 5 ? 'selected' : '' %>>5 ⭐⭐⭐⭐⭐</option>
         </select>
       </div>
 
+      <div class="form-group">
+        <label for="review">Avis</label>
+        <textarea
+          id="review"
+          name="review"
+          class="form-control"
+          rows="5"
+          placeholder="Écrivez votre avis..."><%= formData.review || '' %></textarea>
+      </div>
+
       <div class="form-actions">
-        <button type="submit" class="btn-primary">Modifier</button>
-        <a href="/reservations" class="btn-secondary">Annuler</a>
+        <button type="submit" class="btn-primary">Ajouter</button>
+        <a href="/reviews" class="btn-secondary">Annuler</a>
       </div>
     </form>
   </div>

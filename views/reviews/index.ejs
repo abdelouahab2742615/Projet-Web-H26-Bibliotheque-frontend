@@ -1,0 +1,64 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="top-bar">
+    <h1>Liste des avis</h1>
+    <a href="/reviews/create" class="btn-primary" style="width:auto;">Ajouter</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="card">
+    <table class="reviews-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Utilisateur</th>
+          <th>Livre</th>
+          <th>Note</th>
+          <th>Avis</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!reviews || reviews.length === 0) { %>
+          <tr>
+            <td colspan="6">Aucun avis trouvé.</td>
+          </tr>
+        <% } else { %>
+          <% reviews.forEach(review => { %>
+            <tr>
+              <td><%= review.id %></td>
+              <td><%= review.userId %></td>
+              <td><%= review.bookId %></td>
+              <td>
+                <span class="rating">
+                  <%= review.rating %>/5
+                  <%= "⭐".repeat(review.rating) %>
+                </span>
+              </td>
+              <td><%= review.review ? review.review.substring(0, 50) + "..." : "-" %></td>
+              <td class="actions">
+                <a href="/reviews/edit/<%= review.id %>" class="btn-edit">Modifier</a>
+
+                <form action="/reviews/delete/<%= review.id %>" method="POST" style="display:inline;">
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    onclick="return confirm('Supprimer cet avis ?')">
+                    Supprimer
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

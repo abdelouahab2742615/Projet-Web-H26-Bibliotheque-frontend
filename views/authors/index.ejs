@@ -1,0 +1,57 @@
+<%- include("../partials/header", { title: title }) %>
+<%- include("../partials/navbar") %>
+
+<div class="container">
+  <div class="top-bar">
+    <h1>Liste des auteurs</h1>
+    <a href="/authors/create" class="btn-primary" style="width:auto;">Ajouter</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="card">
+    <table class="authors-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Biographie</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!authors || authors.length === 0) { %>
+          <tr>
+            <td colspan="5">Aucun auteur trouvé.</td>
+          </tr>
+        <% } else { %>
+          <% authors.forEach(author => { %>
+            <tr>
+              <td><%= author.id %></td>
+              <td><%= author.first_name || "-" %></td>
+              <td><%= author.last_name || "-" %></td>
+              <td><%= author.biography ? author.biography.substring(0, 50) + "..." : "-" %></td>
+              <td class="actions">
+                <a href="/authors/edit/<%= author.id %>" class="btn-edit">Modifier</a>
+
+                <form action="/authors/delete/<%= author.id %>" method="POST" style="display:inline;">
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    onclick="return confirm('Supprimer cet auteur ?')">
+                    Supprimer
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

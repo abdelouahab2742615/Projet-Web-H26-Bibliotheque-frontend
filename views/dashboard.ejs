@@ -1,0 +1,42 @@
+<%- include("partials/header", { title: title }) %>
+<%- include("partials/navbar") %>
+
+<div class="container">
+  <div class="top-bar">
+    <h1>Dashboard</h1>
+    <a href="/logout" class="btn-danger">Déconnexion</a>
+  </div>
+
+  <div class="card">
+    <h2>Connexion réussie</h2>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">ID</span>
+        <span><%= currentUser.user.id %></span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Nom utilisateur</span>
+        <span><%= currentUser.user.username %></span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Email</span>
+        <span><%= currentUser.user.email %></span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Rôle</span>
+        <span><%= currentUser.user.role || "Non défini" %></span>
+      </div>
+    </div>
+
+    <div class="token-box">
+      <p><strong>Token JWT :</strong></p>
+      <pre><%= currentUser.token %></pre>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>

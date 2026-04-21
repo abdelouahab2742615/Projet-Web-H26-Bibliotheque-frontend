@@ -1,11 +1,7 @@
 const path = require("path");
 const express = require("express");
+const path = require("path");
 const session = require("express-session");
-
-const publisherRoutes = require("./routes/publishers");
-const reservationRoutes = require("./routes/reservations");
-const sessionRoutes = require("./routes/session");
-const { apiConfig, getCollection, extractItems } = require("./lib/backend-api");
 
 const app = express();
 const port = Number(process.env.PORT) || 3001;
@@ -45,59 +41,31 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", async (req, res) => {
-  const token = req.session.authToken || process.env.DEFAULT_AUTH_TOKEN || "";
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-  const stats = {
-    publishers: null,
-    reservations: null,
-  };
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-  const warnings = [];
+app.use(
+  session({
+    secret: "frontend_bibliotheque_secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
-  try {
-    const publishersPayload = await getCollection("publishers", { query: { limit: 100 } });
-    stats.publishers = extractItems(publishersPayload).length;
-  } catch (error) {
-    warnings.push("Impossible de recuperer les editeurs depuis le backend.");
-  }
+app.use(express.static(path.join(__dirname, "public")));
 
-  try {
-    const reservationsPayload = await getCollection("reservations", {
-      token,
-      query: { limit: 100 },
-    });
-    stats.reservations = extractItems(reservationsPayload).length;
-  } catch (error) {
-    warnings.push(
-      error.status === 401 || error.status === 403
-        ? "Les reservations necessitent un jeton JWT valide."
-        : "Impossible de recuperer les reservations depuis le backend.",
-    );
-  }
-
-  res.render("index", {
-    title: "Bibliotheque Frontend",
-    stats,
-    warnings,
-  });
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
 });
 
-app.use("/session", sessionRoutes);
-app.use("/publishers", publisherRoutes);
-app.use("/reservations", reservationRoutes);
+const webRoutes = require("./routes/web");
+app.use("/", webRoutes);
 
-app.use((req, res) => {
-  res.status(404).render("404", {
-    title: "Page introuvable",
-  });
+const PORT = 4000;
+app.listen(PORT, () => {
+  console.log(`Frontend lancé sur http://localhost:${PORT}`);
 });
-
-if (require.main === module) {
-  app.listen(port, () => {
-    console.log(`Frontend lance sur http://localhost:${port}`);
-    console.log(`Backend cible: ${apiConfig.backendUrl}`);
-  });
-}
-
-module.exports = app;
