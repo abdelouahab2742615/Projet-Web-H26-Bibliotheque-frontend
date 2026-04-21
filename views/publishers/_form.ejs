@@ -1,0 +1,40 @@
+<section class="panel stack">
+  <div>
+    <p class="eyebrow">Formulaire</p>
+    <h1><%= title %></h1>
+  </div>
+
+  <% if (formError) { %>
+    <div class="message-banner message-error">
+      <p><%= formError %></p>
+    </div>
+  <% } %>
+
+  <form method="post" action="<%= formAction %>" class="form-grid">
+    <label class="field">
+      <span>Nom</span>
+      <input type="text" name="nom" value="<%= values.nom %>" placeholder="Ex: Gallimard" />
+      <% if (errors.nom) { %>
+        <small class="field-error"><%= errors.nom %></small>
+      <% } %>
+    </label>
+
+    <label class="field">
+      <span>Pays</span>
+      <input type="text" name="pays" value="<%= values.pays %>" placeholder="Ex: France" />
+    </label>
+
+    <label class="field">
+      <span>Telephone</span>
+      <input type="text" name="telephone" value="<%= values.telephone %>" placeholder="Ex: +1 514 555 0101" />
+      <% if (errors.telephone) { %>
+        <small class="field-error"><%= errors.telephone %></small>
+      <% } %>
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="button-primary"><%= submitLabel %></button>
+      <a class="button-secondary" href="/publishers">Annuler</a>
+    </div>
+  </form>
+</section>

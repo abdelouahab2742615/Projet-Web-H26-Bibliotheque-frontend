@@ -1,0 +1,50 @@
+<%- include("partials/header") %>
+<%- include("partials/messages") %>
+
+<section class="panel stack">
+  <p class="eyebrow">Session partagee</p>
+  <h1>Configurer un jeton JWT</h1>
+  <p>
+    Les routes <code>reservations</code>, <code>users</code> et
+    <code>books</code> du backend sont protegees. Tu peux coller ici un jeton
+    recupere depuis la route de login de l'equipe.
+  </p>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-label">Jeton de session</span>
+      <strong><%= hasSessionToken ? "Actif" : "Aucun" %></strong>
+    </div>
+    <div class="info-card">
+      <span class="info-label">Jeton environnement</span>
+      <strong><%= hasEnvironmentToken ? "Disponible" : "Aucun" %></strong>
+    </div>
+  </div>
+</section>
+
+<section class="panel stack">
+  <h2>Enregistrer ou remplacer le jeton</h2>
+  <form method="post" action="/session/token" class="stack">
+    <input type="hidden" name="redirectTo" value="/session" />
+
+    <label class="field">
+      <span>Jeton JWT</span>
+      <textarea
+        name="authToken"
+        rows="6"
+        placeholder="Colle ici le Bearer token renvoye par /api/users/login"
+      ></textarea>
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="button-primary">Enregistrer le jeton</button>
+    </div>
+  </form>
+
+  <form method="post" action="/session/token/clear">
+    <input type="hidden" name="redirectTo" value="/session" />
+    <button type="submit" class="button-secondary">Vider la session</button>
+  </form>
+</section>
+
+<%- include("partials/footer") %>

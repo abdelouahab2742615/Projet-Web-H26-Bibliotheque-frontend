@@ -1,0 +1,4 @@
+<%- include("../partials/header") %>
+<%- include("../partials/messages") %>
+<%- include("_form", { title, values, errors, formError, formAction: `/publishers/${publisherId}/edit`, submitLabel: "Enregistrer les changements" }) %>
+<%- include("../partials/footer") %>
