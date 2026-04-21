@@ -1,0 +1,89 @@
+<section class="panel stack">
+  <div>
+    <p class="eyebrow">Formulaire</p>
+    <h1><%= title %></h1>
+  </div>
+
+  <% if (formError) { %>
+    <div class="message-banner message-error">
+      <p><%= formError %></p>
+    </div>
+  <% } %>
+
+  <% if (optionWarnings.length > 0) { %>
+    <% optionWarnings.forEach((warning) => { %>
+      <div class="message-banner message-warning">
+        <p><%= warning %></p>
+      </div>
+    <% }) %>
+  <% } %>
+
+  <form method="post" action="<%= formAction %>" class="form-grid">
+    <label class="field">
+      <span>Utilisateur</span>
+      <% if (users.length > 0) { %>
+        <select name="userId">
+          <option value="">Choisir un utilisateur</option>
+          <% users.forEach((user) => { %>
+            <option value="<%= user.value %>" <%= values.userId === user.value ? "selected" : "" %>><%= user.label %></option>
+          <% }) %>
+        </select>
+      <% } else { %>
+        <input type="number" name="userId" value="<%= values.userId %>" placeholder="ID utilisateur" />
+      <% } %>
+      <% if (errors.userId) { %>
+        <small class="field-error"><%= errors.userId %></small>
+      <% } %>
+    </label>
+
+    <label class="field">
+      <span>Livre</span>
+      <% if (books.length > 0) { %>
+        <select name="bookId">
+          <option value="">Choisir un livre</option>
+          <% books.forEach((book) => { %>
+            <option value="<%= book.value %>" <%= values.bookId === book.value ? "selected" : "" %>><%= book.label %></option>
+          <% }) %>
+        </select>
+      <% } else { %>
+        <input type="number" name="bookId" value="<%= values.bookId %>" placeholder="ID livre" />
+      <% } %>
+      <% if (errors.bookId) { %>
+        <small class="field-error"><%= errors.bookId %></small>
+      <% } %>
+    </label>
+
+    <label class="field">
+      <span>Date de reservation</span>
+      <input type="date" name="reservationDate" value="<%= values.reservationDate %>" />
+      <% if (errors.reservationDate) { %>
+        <small class="field-error"><%= errors.reservationDate %></small>
+      <% } %>
+    </label>
+
+    <label class="field">
+      <span>Date d'expiration</span>
+      <input type="date" name="expiryDate" value="<%= values.expiryDate %>" />
+      <% if (errors.expiryDate) { %>
+        <small class="field-error"><%= errors.expiryDate %></small>
+      <% } %>
+    </label>
+
+    <label class="field">
+      <span>Statut</span>
+      <select name="status">
+        <% statusOptions.forEach((option) => { %>
+          <option value="<%= option.value %>" <%= values.status === option.value ? "selected" : "" %>><%= option.label %></option>
+        <% }) %>
+      </select>
+      <% if (errors.status) { %>
+        <small class="field-error"><%= errors.status %></small>
+      <% } %>
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="button-primary"><%= submitLabel %></button>
+      <a class="button-secondary" href="/reservations">Annuler</a>
+    </div>
+  </form>
+</section>

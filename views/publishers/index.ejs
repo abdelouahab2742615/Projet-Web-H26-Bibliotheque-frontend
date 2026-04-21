@@ -1,0 +1,58 @@
+<%- include("../partials/header") %>
+<%- include("../partials/messages") %>
+
+<section class="section-heading">
+  <div>
+    <p class="eyebrow">Abdelhak</p>
+    <h1>Editeurs</h1>
+    <p>Gestion CRUD des maisons d'edition pour le projet Bibliotheque.</p>
+  </div>
+  <a class="button-link" href="/publishers/create">Ajouter un editeur</a>
+</section>
+
+<% if (pageError) { %>
+  <div class="message-banner message-error">
+    <p><%= pageError %></p>
+  </div>
+<% } %>
+
+<section class="panel">
+  <% if (publishers.length === 0) { %>
+    <div class="empty-state">
+      <h2>Aucun editeur charge</h2>
+      <p>Verifie que le backend expose bien <code>/api/publishers</code>.</p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Pays</th>
+            <th>Telephone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% publishers.forEach((publisher) => { %>
+            <tr>
+              <td><%= publisher.id %></td>
+              <td><strong><%= publisher.nom || "Sans nom" %></strong></td>
+              <td><%= publisher.pays || "n/a" %></td>
+              <td><%= publisher.telephone || "n/a" %></td>
+              <td class="action-cell">
+                <a class="button-secondary small-button" href="/publishers/<%= publisher.id %>/edit">Modifier</a>
+                <form method="post" action="/publishers/<%= publisher.id %>/delete" onsubmit="return confirm('Supprimer cet editeur ?');">
+                  <button type="submit" class="button-danger small-button">Supprimer</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>
