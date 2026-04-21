@@ -31,8 +31,8 @@
           <% authors.forEach(author => { %>
             <tr>
               <td><%= author.id %></td>
-              <td><%= author.first_name || "-" %></td>
-              <td><%= author.last_name || "-" %></td>
+              <td><%= author.firstName || "-" %></td>
+              <td><%= author.lastName || "-" %></td>
               <td><%= author.biography ? author.biography.substring(0, 50) + "..." : "-" %></td>
               <td class="actions">
                 <a href="/authors/edit/<%= author.id %>" class="btn-edit">Modifier</a>

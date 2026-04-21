@@ -18,8 +18,7 @@
           <th>ID</th>
           <th>Utilisateur</th>
           <th>Livre</th>
-          <th>Date emprunt</th>
-          <th>Date retour</th>
+          <th>Date d'échéance</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -34,8 +33,7 @@
               <td><%= borrowing.id %></td>
               <td><%= borrowing.userId %></td>
               <td><%= borrowing.bookId %></td>
-              <td><%= borrowing.borrowDate ? borrowing.borrowDate.substring(0, 10) : "-" %></td>
-              <td><%= borrowing.returnDate ? borrowing.returnDate.substring(0, 10) : "-" %></td>
+              <td><%= borrowing.dueDate ? borrowing.dueDate.substring(0, 10) : "-" %></td>
               <td class="actions">
                 <a href="/borrowings/edit/<%= borrowing.id %>" class="btn-edit">Modifier</a>
 

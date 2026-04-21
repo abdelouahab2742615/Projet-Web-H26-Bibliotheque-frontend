@@ -18,8 +18,7 @@
           <th>ID</th>
           <th>Utilisateur</th>
           <th>Livre</th>
-          <th>Date réservation</th>
-          <th>Statut</th>
+          <th>Date d'expiration</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -34,10 +33,9 @@
               <td><%= reservation.id %></td>
               <td><%= reservation.userId %></td>
               <td><%= reservation.bookId %></td>
-              <td><%= reservation.reservationDate ? reservation.reservationDate.substring(0, 10) : "-" %></td>
+              <td><%= reservation.expiryDate ? reservation.expiryDate.substring(0, 10) : "-" %></td>
               <td><span class="badge <%= reservation.status === 'pending' ? 'badge-warning' : 'badge-success' %>"><%= reservation.status || "pending" %></span></td>
-              <td class="actions">
-                <a href="/reservations/edit/<%= reservation.id %>" class="btn-edit">Modifier</a>
+              <tda href="/reservations/edit/<%= reservation.id %>" class="btn-edit">Modifier</a>
 
                 <form action="/reservations/delete/<%= reservation.id %>" method="POST" style="display:inline;">
                   <button

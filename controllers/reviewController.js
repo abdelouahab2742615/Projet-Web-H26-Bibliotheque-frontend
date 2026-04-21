@@ -36,15 +36,18 @@ exports.showCreate = async (req, res) => {
   try {
     const token = req.session.user.token;
 
-    const [books, users] = await Promise.all([
+    const [booksResponse, usersResponse] = await Promise.all([
       axios.get(BOOKS_API, { headers: { Authorization: `Bearer ${token}` } }),
       axios.get(USERS_API, { headers: { Authorization: `Bearer ${token}` } }),
     ]);
 
+    const books = Array.isArray(booksResponse.data) ? booksResponse.data : (booksResponse.data.data || []);
+    const users = Array.isArray(usersResponse.data) ? usersResponse.data : (usersResponse.data.data || []);
+
     res.render("reviews/create", {
       title: "Ajouter un avis",
-      books: books.data.data || [],
-      users: users.data || [],
+      books,
+      users,
       error: null,
       formData: {},
     });

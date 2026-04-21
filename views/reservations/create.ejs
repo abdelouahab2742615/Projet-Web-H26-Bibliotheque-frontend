@@ -43,27 +43,14 @@
       </div>
 
       <div class="form-group">
-        <label for="reservationDate">Date de réservation *</label>
+        <label for="expiryDate">Date d'expiration *</label>
         <input
           type="date"
-          id="reservationDate"
-          name="reservationDate"
+          id="expiryDate"
+          name="expiryDate"
           class="form-control"
-          value="<%= formData.reservationDate || '' %>"
+          value="<%= formData.expiryDate || '' %>"
           required />
-      </div>
-
-      <div class="form-group">
-        <label for="status">Statut *</label>
-        <select
-          id="status"
-          name="status"
-          class="form-control"
-          required>
-          <option value="pending" <%= formData.status === 'pending' ? 'selected' : '' %>>En attente</option>
-          <option value="confirmed" <%= formData.status === 'confirmed' ? 'selected' : '' %>>Confirmée</option>
-          <option value="cancelled" <%= formData.status === 'cancelled' ? 'selected' : '' %>>Annulée</option>
-        </select>
       </div>
 
       <div class="form-actions">

@@ -51,7 +51,7 @@
           <option value="">Sélectionner un auteur</option>
           <% authors.forEach(author => { %>
             <option value="<%= author.id %>" <%= formData.authorId == author.id ? 'selected' : '' %>>
-              <%= author.first_name %> <%= author.last_name %>
+              <%= author.firstName %> <%= author.lastName %>
             </option>
           <% }) %>
         </select>

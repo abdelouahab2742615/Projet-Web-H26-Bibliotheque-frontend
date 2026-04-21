@@ -41,13 +41,13 @@ exports.showCreate = (req, res) => {
 exports.create = async (req, res) => {
   try {
     const token = req.session.user.token;
-    const { first_name, last_name, biography } = req.body;
+    const { firstName, lastName, biography } = req.body;
 
     await axios.post(
       API_BASE_URL,
       {
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         biography,
       },
       {
@@ -99,13 +99,13 @@ exports.update = async (req, res) => {
   try {
     const token = req.session.user.token;
     const { id } = req.params;
-    const { first_name, last_name, biography } = req.body;
+    const { firstName, lastName, biography } = req.body;
 
     await axios.put(
       `${API_BASE_URL}/${id}`,
       {
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         biography,
       },
       {

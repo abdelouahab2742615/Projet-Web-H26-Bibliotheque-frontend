@@ -43,24 +43,14 @@
       </div>
 
       <div class="form-group">
-        <label for="borrowDate">Date d'emprunt *</label>
+        <label for="dueDate">Date d'échéance *</label>
         <input
           type="date"
-          id="borrowDate"
-          name="borrowDate"
+          id="dueDate"
+          name="dueDate"
           class="form-control"
-          value="<%= borrowing.borrowDate ? borrowing.borrowDate.substring(0, 10) : '' %>"
+          value="<%= borrowing.dueDate ? borrowing.dueDate.substring(0, 10) : '' %>"
           required />
-      </div>
-
-      <div class="form-group">
-        <label for="returnDate">Date de retour</label>
-        <input
-          type="date"
-          id="returnDate"
-          name="returnDate"
-          class="form-control"
-          value="<%= borrowing.returnDate ? borrowing.returnDate.substring(0, 10) : '' %>" />
       </div>
 
       <div class="form-actions">

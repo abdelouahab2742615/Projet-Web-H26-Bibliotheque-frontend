@@ -66,6 +66,7 @@ console.log("USERS FINAL =", users);
 exports.showCreate = (req, res) => {
   res.render("users/create", {
     title: "Ajouter un utilisateur",
+    formData: {},
     error: null,
   });
 };
@@ -76,7 +77,7 @@ exports.create = async (req, res) => {
     const { username, email, password, roleId } = req.body;
 
     await axios.post(
-      API_BASE_URL,
+      `${API_BASE_URL}/register`,
       {
         username,
         email,
